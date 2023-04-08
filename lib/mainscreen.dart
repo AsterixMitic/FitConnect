@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/leaderboard.dart';
+import 'package:fit/main_challenges.dart';
 import 'package:fit/profile.dart';
+import 'package:fit/settings.dart';
 import 'package:flutter/material.dart';
 
 class MainScreenPage extends StatefulWidget {
@@ -14,50 +16,56 @@ class _MainScreenPageState extends State<MainScreenPage>{
 
   int selectedIndex = 0;
 
-  @override
-  Widget build(BuildContext context) {
-
-    final user = FirebaseAuth.instance.currentUser;
+  final user = FirebaseAuth.instance.currentUser;
 
     final screens = [
-      //MainScreenPage(),
+      MainChallengesPage(),
       ProfilePage(),
       LeaderboardPage(),
+      SettingsPage(),
     ];
 
     void _onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+      setState(() {
+        selectedIndex = index;
+      });
   }
+
+  @override
+  Widget build(BuildContext context) {
 
     return SafeArea(
       child: Scaffold(
       body: screens[selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
           currentIndex: selectedIndex,
           onTap: _onItemTapped,
-          items: [
+          items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_tree),
+              icon: Icon(Icons.line_axis),
+              label: 'Challenges',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
               label: 'Profile',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_tree),
+              icon: Icon(Icons.leaderboard),
               label: 'Leaderboard',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ), 
           ]
+      ),
 
-      )
-      )
+    )
     );
 
   }
 
-  Future logOut() async {
-      await FirebaseAuth.instance.signOut();
-  }
+
 
 }
