@@ -12,7 +12,10 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        body: Text("This is profile"),
+         body: Center(
+        child: Text('This is Profile',
+        style: TextStyle(fontSize: 30),),
+      )
       ));
   }
 }
