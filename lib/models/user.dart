@@ -1,11 +1,11 @@
-class User {
+class Client {
   String email;
   String? name, lastname;
   int points;
   int height, weight;
   String? picture;
 
-  User(
+  Client(
       {required this.email,
       this.name,
       this.lastname,

@@ -1,7 +1,7 @@
 import 'user.dart';
 
 abstract class Activity {
-  int caloriesBurned(User u);
+  int caloriesBurned(Client u);
   int getQuantity();
 }
 
@@ -13,7 +13,7 @@ class Cycling extends Activity {
   Cycling({required this.quantity, required this.intensity});
 
   @override
-  int caloriesBurned(User u) {
+  int caloriesBurned(Client u) {
     int MET;
     switch (intensity) {
       case 1:
@@ -43,7 +43,7 @@ class Walking extends Activity {
   String unit = "minut";
   Walking({required this.quantity});
   @override
-  int caloriesBurned(User u) {
+  int caloriesBurned(Client u) {
     return 4.5 * u.weight * quantity ~/ 60;
   }
 
@@ -61,7 +61,7 @@ class Swiming extends Activity {
   Swiming({required this.quantity, required this.intensity});
 
   @override
-  int caloriesBurned(User u) {
+  int caloriesBurned(Client u) {
     int MET;
     switch (intensity) {
       case 1:
@@ -94,7 +94,7 @@ class Running extends Activity {
   Running({required this.quantity, required this.intensity});
 
   @override
-  int caloriesBurned(User u) {
+  int caloriesBurned(Client u) {
     int MET;
     switch (intensity) {
       case 1:
