@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/SplashScreen.dart';
 import 'package:fit/mainscreen.dart';
@@ -7,20 +9,29 @@ import 'package:firebase_core/firebase_core.dart';
 import 'auth.dart';
 import 'firebase_options.dart';
 
+var _showSplash =true;
 
-void main() async {
+void main() async  {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+  Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+    
   );
-  runApp(const MainApp());
+  runApp( const MainApp());
 }
+
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+
+class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -42,9 +53,19 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //Fb firebase = Fb();
-    return Scaffold(
+    
+    if(_showSplash){
+      Timer(const Duration(seconds: 2),(){
+        setState(() {
+          _showSplash =false;
+        });
+        });
+      return SplashScreen();
+    }else {
+      return Scaffold(
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
+          
         builder: (context, snapshot){
           if(snapshot.hasData){
                return const MainScreenPage();
@@ -55,6 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       ,)
     );
+    }
+    
   }
 }
 

@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -35,53 +37,74 @@ class _SigninPageState extends State<SigninWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: emailController,
-              cursorColor: Colors.white,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: "Enter your email"),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (email) => 
-                email != null && !EmailValidator.validate(email) ?
-                'Enter valid email!'
-                : null,
-
-            ),
-            SizedBox(height: 40),
-            TextField(
-              controller: passwordController,
-              cursorColor: Colors.white,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(labelText: "Enter your password"),
-            ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              
-              onPressed: signIn, 
-              child: Text("Sign in"),
-            ),
-            SizedBox(height: 40),
-            RichText(
-              text: TextSpan(
-                text: 'Already have acc? ',
+      backgroundColor: Colors.white,
+      body: 
+         BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+           child: Container
+           (
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+              colors: [
+                Color(0xCC6BFE9F),
+                Color(0xCC35b1b5),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            )),
+         
+             child: Padding(
+              padding: EdgeInsets.only(left: 20,right: 20),
+               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                
                 children: [
-                  TextSpan(
-                    recognizer: TapGestureRecognizer()..onTap = widget.onClickedSignUp,
-                    text: 'Log in!',
-                    style: TextStyle(
-                      color: Colors.blue,
+                  TextFormField(
+                    controller: emailController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(labelText: "Enter your email"),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (email) => 
+                      email != null && !EmailValidator.validate(email) ?
+                      'Enter valid email!'
+                      : null,
+             
+                  ),
+                  SizedBox(height: 40),
+                  TextField(
+                    controller: passwordController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(labelText: "Enter your password"),
+                  ),
+                  SizedBox(height: 40),
+                  ElevatedButton(
+                    
+                    onPressed: signIn, 
+                    child: Text("Sign in"),
+                  ),
+                  SizedBox(height: 40),
+                  RichText(
+                    text: TextSpan(
+                      text: 'Already have acc? ',
+                      children: [
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()..onTap = widget.onClickedSignUp,
+                          text: 'Log in!',
+                          style: TextStyle(
+                            color: Colors.blue,
+                          )
+                        )
+                      ]
                     )
                   )
-                ]
-              )
-            )
-          ],
-        ),
-      ),
+                ],
+                     ),
+             ),
+           ),
+         ),
+      
     );
   }
 
