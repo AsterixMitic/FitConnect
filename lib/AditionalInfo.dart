@@ -1,13 +1,39 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit/database.dart';
+import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'mainscreen.dart';
 
-class AditionalInfo extends StatelessWidget {
-  const AditionalInfo({super.key});
+class AditionalInfo extends StatefulWidget {
+  AditionalInfo({super.key});
+
+  @override
+  State<AditionalInfo> createState() => _AditionalInfoState();
+}
+
+class _AditionalInfoState extends State<AditionalInfo> {
+
+  final nameController = TextEditingController();
+  final lastnameController = TextEditingController();
+  final heightController = TextEditingController();
+  final weightController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    lastnameController.dispose();
+    heightController.dispose();
+    weightController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -68,10 +94,11 @@ class AditionalInfo extends StatelessWidget {
                                           blurRadius: 10,
                                           color: Color(0xedEEEEEE))
                                     ]),
-                                child: const Padding(
+                                child: Padding(
                                   padding:
                                       EdgeInsets.only(bottom: 4, left: 8, right: 6),
                                   child: TextField(
+                                    controller: nameController,
                                     textAlignVertical: TextAlignVertical.top,
                                     decoration: InputDecoration(
                                       icon: Icon(
@@ -102,17 +129,18 @@ class AditionalInfo extends StatelessWidget {
                                           blurRadius: 10,
                                           color: Color(0xedEEEEEE))
                                     ]),
-                                child: const Padding(
+                                child: Padding(
                                   padding:
                                       EdgeInsets.only(bottom: 4, left: 8, right: 6),
                                   child: TextField(
+                                    controller: lastnameController,
                                     textAlignVertical: TextAlignVertical.top,
                                     decoration: InputDecoration(
                                       icon: Icon(
                                         Icons.person,
                                         size: 20,
                                       ),
-                                      hintText: "Enter your surname",
+                                      hintText: "Enter your lastname",
                                       hintStyle: TextStyle(fontSize: 13),
                                       focusedBorder: InputBorder.none,
                                       enabledBorder: InputBorder.none,
@@ -149,10 +177,11 @@ class AditionalInfo extends StatelessWidget {
                                   blurRadius: 10,
                                   color: Color(0xedEEEEEE))
                             ]),
-                        child: const Padding(
+                        child: Padding(
                           padding:
                               EdgeInsets.only(bottom: 4, left: 8, right: 6),
                           child: TextField(
+                            controller: weightController,
                             textAlignVertical: TextAlignVertical.top,
                             decoration: InputDecoration(
                               icon: Icon(
@@ -186,10 +215,11 @@ class AditionalInfo extends StatelessWidget {
                                   blurRadius: 10,
                                   color: Color(0xedEEEEEE))
                             ]),
-                        child: const Padding(
+                        child: Padding(
                           padding:
                               EdgeInsets.only(bottom: 4, left: 8, right: 6),
                           child: TextField(
+                            controller: heightController,
                             textAlignVertical: TextAlignVertical.top,
                             decoration: InputDecoration(
                               icon: Icon(
@@ -208,8 +238,21 @@ class AditionalInfo extends StatelessWidget {
                       Expanded(child: Container(),),
                   GestureDetector(
                     onTap: () {
-                      HapticFeedback.vibrate();
+                      var uuid = FirebaseAuth.instance.currentUser;
+                      final Database db = Database(uid: uuid!.uid);
+
+                      Client u = Client(email: uuid.email.toString());
+                      u.name = nameController.text.trim();
+                      u.lastname = lastnameController.text.trim();
+                      u.weight = int.parse(weightController.text);
+                      u.height = int.parse(heightController.text);
+
+                      db.updateUserData(u);
+
+                      Navigator.push(context,  MaterialPageRoute(builder: (context) => MainScreenPage()));
+
                     },
+
                     child: Container(
                       alignment: Alignment.center,
                       margin:
@@ -244,4 +287,6 @@ class AditionalInfo extends StatelessWidget {
       ),
     );
   }
+
+
 }
