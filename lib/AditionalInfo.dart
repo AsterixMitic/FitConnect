@@ -47,7 +47,7 @@ class AditionalInfo extends StatelessWidget {
                             
                             child: Container(
                               height: 120,
-                              child: Image.asset("images/profileIcon.png"),
+                              child: Image.asset("../images/profileIcon.png"),
                             ),
                           ),
                         ],
