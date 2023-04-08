@@ -36,6 +36,7 @@ class _MainScreenPageState extends State<MainScreenPage>{
       body: screens[selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
           currentIndex: selectedIndex,
           onTap: _onItemTapped,
           items: [
