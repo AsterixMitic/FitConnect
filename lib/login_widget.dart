@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginWidget> {
                 SizedBox(height: 40),
                 TextField(
                   controller: passwordController,
-                  cursorColor: Colors.white,
+                  cursorColor: Colors.white,  
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(labelText: "Enter your password"),
                 ),
