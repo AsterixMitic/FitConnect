@@ -75,7 +75,23 @@ class _MyHomePageState extends State<MyHomePage> {
           
         builder:  (context, snapshot){
           if(snapshot.hasData){
-
+            return FutureBuilder<Client?>(
+              future: Database(uid: snapshot.data!.uid).getUserData(),
+              builder: (context, snapshot) {
+                if(snapshot.hasData){
+                  if(snapshot.data!.name==null){
+                    return AditionalInfo();
+                  } else{
+                    return const MainScreenPage();
+                  }
+                } else if(snapshot.hasError){
+                    return Text(snapshot.error.toString());
+                }
+                else{
+                    return Text("loading");
+                }
+              }
+              );
           }
           else{
             return AuthPage();
@@ -86,23 +102,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     
   }
-
-  Future<Widget> getUser(snapshot) async {
-    if(snapshot.hasData){
-      String uuid = snapshot.data!.uid;
-      Database db = Database(uid: uuid);
-      await db.getUserData().then((value) => u = value);
-                print (u);
-                if(u!.name != null)
-                  return const MainScreenPage();
-               else
-                return AditionalInfo();
-          }
-          else{
-            return AuthPage();
-          }
-  }
-
 
 }
 
