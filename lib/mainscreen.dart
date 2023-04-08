@@ -39,7 +39,6 @@ class _MainScreenPageState extends State<MainScreenPage>{
       body: screens[selectedIndex],
 
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
           currentIndex: selectedIndex,
           onTap: _onItemTapped,
           items: const [
