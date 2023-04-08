@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:js_interop';
 import 'models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,29 +17,10 @@ class Database {
         .onError((error, stackTrace) => print(error));
   }
 
-  Client? getUserData() {
+  Future<Client?> getUserData() async {
     Client? data;
-    users.get().then(
-      (querySnapshot) {
-        print("Successfully completed");
-        for (var docSnapshot in querySnapshot.docs) {
-          var q = docSnapshot.data() as Map<String, dynamic>;
-          print('${docSnapshot.id} => ${docSnapshot.data()}');
-          data = Client(
-              name: q['name'],
-              lastname: q['lastname'],
-              email: q['email'],
-              height: q['height'],
-              weight: q['weight'],
-              picture: q['picture']);
-          return data;
-        }
-      },
-      onError: (e) => print("Error completing: $e"),
-    );
-    return data;
-/*
-    users.doc(uid).get().then((querySnapshot) {
+
+    await users.doc(uid).get().then((querySnapshot) {
       print("Successfully completed");
       var q = querySnapshot.data() as Map<String, dynamic>?;
       if (q != null) {
@@ -58,6 +38,6 @@ class Database {
         }
       }
     }).onError((error, stackTrace) => null);
-    return data;/=*/
+    return data;
   }
 }

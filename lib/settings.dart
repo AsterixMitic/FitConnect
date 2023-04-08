@@ -30,6 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
 Future logOut() async {
       await FirebaseAuth.instance.signOut();
+      //Navigator.pop()
   }
 
 }

@@ -9,8 +9,8 @@ class Client {
       {required this.email,
       this.name,
       this.lastname,
-      this.height = 170,
-      this.weight = 70,
+      this.height = 0,
+      this.weight = 0,
       this.picture,
       this.points = 0});
 
