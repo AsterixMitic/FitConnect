@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "663604262305",
+    "project_id": "fitconnect-38ef3",
+    "storage_bucket": "fitconnect-38ef3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663604262305:android:5e24c34bbeda9d9eeec7e0",
+        "android_client_info": {
+          "package_name": "com.example.fit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663604262305-5tuki76if4gqtm165oefv6qje9loah0c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb_qr-zqPJGQc0T8m15BH8Ul8RCnSoli0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663604262305-5tuki76if4gqtm165oefv6qje9loah0c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
