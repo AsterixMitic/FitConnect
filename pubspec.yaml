@@ -13,6 +13,7 @@ dependencies:
   firebase_auth: ^4.4.0
   email_validator: ^2.1.16
   rive: ^0.10.2
+  cloud_firestore: ^4.5.0
 
 dev_dependencies:
   flutter_test:
