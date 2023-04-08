@@ -73,7 +73,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                             
                             child: Container(
                               height: 120,
-                              child: Image.asset("../images/profileIcon.png"),
+                              child: Image.asset("images/profileIcon.png"),
                             ),
                           ),
                         ],

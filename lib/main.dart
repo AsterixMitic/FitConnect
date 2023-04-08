@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/SplashScreen.dart';
 import 'package:fit/database.dart';
+import 'package:fit/main_challenges.dart';
 import 'package:fit/mainscreen.dart';
 import 'package:fit/models/user.dart';
 import 'package:fit/profile.dart';
@@ -74,23 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           
         builder:  (context, snapshot){
           if(snapshot.hasData){
-            return FutureBuilder<Client?>(
-              future: Database(uid: snapshot.data!.uid).getUserData(),
-              builder: (context, snapshot) {
-                if(snapshot.hasData){
-                  if(snapshot.data!.name==null){
-                    return AditionalInfo();
-                  } else{
-                    return const MainScreenPage();
-                  }
-                } else if(snapshot.hasError){
-                    return Text(snapshot.error.toString());
-                }
-                else{
-                    return Text("loading");
-                }
-              }
-              );
+
           }
           else{
             return AuthPage();

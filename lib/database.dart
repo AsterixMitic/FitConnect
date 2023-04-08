@@ -20,6 +20,7 @@ class Database {
   Future<Client?> getUserData() async {
     Client? data;
 
+
     await users.doc(uid).get().then((querySnapshot) {
       print("Successfully completed");
       var q = querySnapshot.data() as Map<String, dynamic>?;
