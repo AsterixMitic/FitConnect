@@ -17,10 +17,13 @@ PODS:
     - GoogleUtilities/Environment
   - "GoogleUtilities/NSData+zlib (7.11.1)"
   - PromisesObjC (2.2.0)
+  - rive_common (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - rive_common (from `.symlinks/plugins/rive_common/ios`)
 
 SPEC REPOS:
   trunk:
@@ -35,6 +38,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  rive_common:
+    :path: ".symlinks/plugins/rive_common/ios"
 
 SPEC CHECKSUMS:
   Firebase: 0219acf760880eeec8ce479895bd7767466d9f81
@@ -44,6 +49,7 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  rive_common: b5b1aa30c63b8f0f00f32cddc9ea394d3d3473b5
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
