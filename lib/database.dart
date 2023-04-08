@@ -9,7 +9,7 @@ class Database {
   final CollectionReference users =
       FirebaseFirestore.instance.collection("users");
 
-  void updateUserData(User u) {
+  void updateUserData(Client u) {
     final data = u.toMap();
     users
         .doc(uid)
@@ -17,14 +17,14 @@ class Database {
         .onError((error, stackTrace) => print(error));
   }
 
-  User? getUserData() {
-    User? data;
+  Client? getUserData() {
+    Client? data;
     users.doc(uid).get().then((querySnapshot) {
       print("Successfully completed");
       var q = querySnapshot.data() as Map<String, dynamic>?;
       if (q != null) {
         try {
-          data = User(
+          data = Client(
               name: q['name'],
               lastname: q['lastname'],
               email: q['email'],

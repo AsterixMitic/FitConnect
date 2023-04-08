@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/SplashScreen.dart';
+import 'package:fit/database.dart';
 import 'package:fit/mainscreen.dart';
 import 'package:fit/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'auth.dart';
 import 'firebase_options.dart';
+import 'AditionalInfo.dart';
 
 var _showSplash =true;
 
@@ -67,8 +69,15 @@ class _MyHomePageState extends State<MyHomePage> {
         stream: FirebaseAuth.instance.authStateChanges(),
           
         builder: (context, snapshot){
+          
+          
           if(snapshot.hasData){
-               return const MainScreenPage();
+                 String uuid =snapshot.data!.uid;
+                Database db = Database(uid: uuid);
+                if(db.getUserData()!= null && db.getUserData()!.name != null)
+                  return const MainScreenPage();
+               else
+                return const AditionalInfo();
           }
           else{
             return AuthPage();

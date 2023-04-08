@@ -3,11 +3,13 @@ import 'dart:ui';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit/database.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
+import 'models/user.dart';
 
 class SigninWidget extends StatefulWidget{
 
@@ -123,6 +125,8 @@ class _SigninPageState extends State<SigninWidget> {
         email: emailController.text.trim(),
         password: passwordController.text.trim()
         );
+      Client u = Client(email: emailController.text.trim());
+      Database(uid: FirebaseAuth.instance.currentUser!.uid).updateUserData(u);
     } on FirebaseAuthException catch(e){
       print(e);
     }
