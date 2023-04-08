@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/SplashScreen.dart';
+import 'package:fit/mainscreen.dart';
 import 'package:fit/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'auth.dart';
 import 'firebase_options.dart';
+
 
 void main() async {
   await Firebase.initializeApp(
@@ -11,17 +15,45 @@ void main() async {
   runApp(const MainApp());
 }
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: SplashScreen(),
-        ),
-      ),
+      title: 'FitConnect',
+      debugShowCheckedModeBanner: false,
+       home: MyHomePage(),
+      );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    //Fb firebase = Fb();
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+               return const MainScreenPage();
+          }
+          else{
+            return AuthPage();
+          }
+        }
+      ,)
     );
   }
 }
+
