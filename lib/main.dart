@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/SplashScreen.dart';
 import 'package:fit/database.dart';
+import 'package:fit/main_challenges.dart';
 import 'package:fit/mainscreen.dart';
 import 'package:fit/profile.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 if(db.getUserData()!= null && db.getUserData()!.name != null)
                   return const MainScreenPage();
                else
-                return const AditionalInfo();
+                return const MainChallengesPage();
           }
           else{
             return AuthPage();
