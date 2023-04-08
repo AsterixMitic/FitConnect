@@ -23,6 +23,5 @@ flutter:
   uses-material-design: true
   assets: 
     - assets/fit.riv
-    - assets/iconsetplanet.riv
 
   
