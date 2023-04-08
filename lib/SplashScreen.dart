@@ -3,6 +3,7 @@ import 'package:rive/rive.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -10,9 +11,9 @@ class SplashScreen extends StatelessWidget {
         backgroundColor: Color(0xff6BFE9F),  
         body: Center(
           child: Container(
-            height: 20,
-            width: 20,
-            child: RiveAnimation.asset("fit.riv",artboard: "New Artboard",)),
+            height: 200,
+            width: 200,
+            child: RiveAnimation.asset("assets/fit.riv",artboard: "Loading",),),
         ),
         
         
