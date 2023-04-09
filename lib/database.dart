@@ -60,7 +60,7 @@ class Database {
     List<ComplitedChallange> r = [];
     await challanges.where("uid", isEqualTo: uid).get().then((value) {
       for (var doc in value.docs) {
-        print('${doc.id} => ${doc.data()}');
+        //print('${doc.id} => ${doc.data()}');
         var q = doc.data() as Map<String, dynamic>;
         var p = q['activity'] as Map<String, dynamic>;
         ComplitedChallange c = ComplitedChallange(

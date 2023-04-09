@@ -14,49 +14,45 @@ class MainScreenPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _MainScreenPageState();
-
 }
 
-class _MainScreenPageState extends State<MainScreenPage>{
-
+class _MainScreenPageState extends State<MainScreenPage> {
   late final Client? user;
 
   int selectedIndex = 0;
 
   final fbInstance = FirebaseAuth.instance.currentUser;
 
-    @override
-      void initState() {
-        super.initState();
-        user = widget.user;
-    }
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
 
   late final screens = [
-          MainChallengesPage(),
-          ProfilePage(user: user),
-          LeaderboardPage(),
-          SettingsPage(),
-        ];
+    MainChallengesPage(user: user!),
+    ProfilePage(user: user),
+    LeaderboardPage(),
+    SettingsPage(),
+  ];
 
-    @override
+  @override
   MainScreenPage get widget => super.widget;
 
-    void _onItemTapped(int index) {
-      setState(() {
-        selectedIndex = index;
-      });
+  void _onItemTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
-      child: Scaffold(
+        child: Scaffold(
       body: screens[selectedIndex],
-
-      bottomNavigationBar: BottomNavigationBar( 
-        elevation: 0,
-         type: BottomNavigationBarType.fixed,
+      bottomNavigationBar: BottomNavigationBar(
+          elevation: 0,
+          type: BottomNavigationBarType.fixed,
           currentIndex: selectedIndex,
           onTap: _onItemTapped,
           items: const [
@@ -75,15 +71,8 @@ class _MainScreenPageState extends State<MainScreenPage>{
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'Settings',
-            ), 
-          ]
-      ),
-
-    )
-    );
-
+            ),
+          ]),
+    ));
   }
-
-
-
 }

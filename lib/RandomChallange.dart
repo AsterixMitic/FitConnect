@@ -1,22 +1,31 @@
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit/UserImagePicker.dart';
+import 'package:fit/UserImagePicker2.dart';
+import 'package:fit/database.dart';
 
+import 'models/activity.dart';
 import 'package:fit/main_challenges.dart';
 import 'package:flutter/material.dart';
-
+import 'models/user.dart';
 
 class RandomChallangeView extends StatefulWidget {
-  const RandomChallangeView({super.key});
+  final Progress progress;
+  final Function complete;
+
+  const RandomChallangeView(
+      {super.key, required this.progress, required this.complete});
 
   @override
   State<RandomChallangeView> createState() => _RandomChallangeViewState();
 }
 
 class _RandomChallangeViewState extends State<RandomChallangeView> {
+  double _currentSliderValue = 1;
   @override
   Widget build(BuildContext context) {
     int? index = ModalRoute.of(context)!.settings.arguments as int?;
-
-    
+    Challange challange = Challange.generateChalange(widget.progress, index!);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -51,9 +60,8 @@ class _RandomChallangeViewState extends State<RandomChallangeView> {
                   SizedBox(
                     height: 50,
                   ),
-                  
-                  const Text(
-                    "Your challange is to suck cock for 24 hours:",
+                  Text(
+                    challange.text.toString(),
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 20,
@@ -68,13 +76,14 @@ class _RandomChallangeViewState extends State<RandomChallangeView> {
                       Stack(
                         children: [
                           GestureDetector(
-                            child: Container(
-                                height: 120,
-                                child: Icon(
-                                  Icons.image,
-                                  size: 100,
-                                )),
-                          ),
+                              child: Container(
+                            height: 120,
+                            child: UserImagePicker2(
+                                challange_id:
+                                    FirebaseAuth.instance.currentUser!.uid +
+                                        "-" +
+                                        index.toString()),
+                          )),
                         ],
                       ),
                       const Text(
@@ -91,53 +100,49 @@ class _RandomChallangeViewState extends State<RandomChallangeView> {
                     height: 20,
                   ),
                   const Text(
-                    "Enter Required Data!",
+                    "Enter Intensity of Challange:",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  
                   SizedBox(
                     height: 20,
                   ),
-                  
-                    Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: const Color(0xedFFFFFF),
-                              // ignore: prefer_const_literals_to_create_immutables
-                              boxShadow: [
-                                const BoxShadow(
-                                    offset: Offset(0, 10),
-                                    blurRadius: 10,
-                                    color: Color(0xedEEEEEE))
-                              ]),
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(bottom: 4, left: 8, right: 6),
-                            child: TextField(
-                              textAlignVertical: TextAlignVertical.top,
-                              decoration: InputDecoration(
-                                icon: Icon(
-                                  Icons.monitor_weight_rounded,
-                                  size: 20,
-                                ),
-                                hintText: "Enter your data:",
-                                hintStyle: TextStyle(fontSize: 14),
-                                focusedBorder: InputBorder.none,
-                                enabledBorder: InputBorder.none,
-                                iconColor: Color(0xCC6BFE9F),
-                              ),
-                            ),
-                          ),
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: const Color(0xedFFFFFF),
+                            // ignore: prefer_const_literals_to_create_immutables
+                            boxShadow: [
+                              const BoxShadow(
+                                  offset: Offset(0, 10),
+                                  blurRadius: 10,
+                                  color: Color(0xedEEEEEE))
+                            ]),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(bottom: 4, left: 8, right: 6),
+                          child: Slider(
+                              value: _currentSliderValue,
+                              max: 2,
+                              divisions: 2,
+                              label: Activity.intensityString(
+                                  _currentSliderValue.round() + 1),
+                              onChanged: (double value) {
+                                setState(() {
+                                  _currentSliderValue = value;
+                                });
+                              }),
                         )),
+                  ),
                   SizedBox(
                     height: 30,
                   ),
+                  /*
                   Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width / 1.2,
@@ -170,14 +175,25 @@ class _RandomChallangeViewState extends State<RandomChallangeView> {
                             ),
                           ),
                         ),
-                      )),
-
-
+                      )),*/
                   Expanded(
                     child: Container(),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      ComplitedChallange c = ComplitedChallange(
+                          activity: Activity.fromMap({
+                            "type": challange.task,
+                            "quantity": challange.quantity,
+                            "intensity": _currentSliderValue.round() + 1,
+                          }),
+                          slika:
+                              "https://firebasestorage.googleapis.com/v0/b/fitconnect-38ef3.appspot.com/o/user_image%20%2FprofileIcon.png?alt=media&token=3008631f-f6ac-4302-86c5-c510508a5eb6",
+                          date: DateTime.now(),
+                          challange: challange.text);
+                      widget.complete(c);
+                      Navigator.pop(context);
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       margin:
@@ -206,9 +222,7 @@ class _RandomChallangeViewState extends State<RandomChallangeView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(
-                        context
-                      );
+                      Navigator.pop(context);
                     },
                     child: Container(
                       alignment: Alignment.center,

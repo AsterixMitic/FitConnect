@@ -1,9 +1,15 @@
 import 'dart:ui';
 
+import 'package:fit/models/activity.dart';
 import 'package:flutter/material.dart';
+import 'models/user.dart';
 
 class ChallangeViewDone extends StatelessWidget {
-  const ChallangeViewDone({super.key});
+  final ComplitedChallange challange;
+  final Client user;
+
+  const ChallangeViewDone(
+      {super.key, required this.challange, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -75,25 +81,22 @@ class ChallangeViewDone extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  
-                  
-                  const Text(
-                    "Here is your data!",
+                  Text(
+                    challange.activity.toString(),
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  
-                  const Text(
-                    "Here is your data!",
+                  Text(
+                    "Calories burned: " +
+                        challange.activity.caloriesBurned(user).toString() +
+                        "cal",
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                   ),
-                    
                   Expanded(
                     child: Container(),
                   ),
-                  
                   GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
@@ -131,8 +134,5 @@ class ChallangeViewDone extends StatelessWidget {
         ),
       ),
     );
-    
-    
-    
-    }
+  }
 }
