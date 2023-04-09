@@ -1,3 +1,5 @@
+
+import 'package:fit/UserImagePicker.dart';
 import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
 
@@ -22,15 +24,26 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var ime = _user!.name;
+    var prezime = _user!.lastname;
+    var visina = _user!.height;
+    var tezina = _user!.weight;
+    var userImage = _user!.picture;
+    do {
+      ime = _user?.name;
+      prezime = _user?.lastname;
+      visina = _user!.height;
+      tezina = _user!.weight;
+      userImage = _user!.picture;
 
-    var ime = _user?.name;
-    var prezime = _user?.lastname;
-    var visina = _user?.height;
-    var tezina = _user?.weight;
+      
+    
+    } while(_user!.name==null);
+    
 
-    final List<String> entries = <String>['A', 'B', 'C'];
 
-    return Container(
+    return Scaffold(
+       body: Container(
       decoration: const BoxDecoration(
             gradient: LinearGradient(
           colors: [
@@ -40,61 +53,49 @@ class _ProfilePageState extends State<ProfilePage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         )),
-      child: Scaffold(
-        
+      child: Column(
+        children: [
+          SizedBox(height: 30),
+          const Text(
+                    "Your Profile!",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 25,
+                    ),
+                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+                 Container(
+                              height: 120,
+                              child:CircleAvatar(
+                                radius: 60,
+                                backgroundImage: NetworkImage(userImage.toString()) ,
+                              ),
+                            ),
+              waitToLoad(ime, prezime),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              waitToLoadWeight(visina, tezina),
+            ],
+          )
 
-         body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            Text('Profile',
-          style: TextStyle(fontSize: 30),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                  CircleAvatar(
-                radius: 48, 
-                backgroundImage: AssetImage('images/profileIcon.png'),
-                backgroundColor: Colors.transparent,//NetworkImage('imageUrl'),
-              ),
-              Text('$ime $prezime',
-              style: TextStyle(fontSize: 30),),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Visina: $visina  Tezina: $tezina',
-              style: TextStyle(fontSize: 20),),
-              ],
-            ),
-            Column(
-              children: [
-                 ListView.separated(
-                padding: const EdgeInsets.all(10),
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 100,
-                    color: Colors.blueAccent,
-                    child: Center(
-                      child: Row(
-                        children: [
-                           
-                          Text('${entries[index]}'),
-
-                        ],
-                      )
-                      ),
-                  );
-                }
-                ,separatorBuilder: (BuildContext context, int index) => const Divider(),
-              ),
-              ],
-            )
-          ]
-        )
+        ]
       )
-    ));
+    )
+    );
+  }
+
+  Text waitToLoadWeight(int visina, int tezina) {
+    return Text('Visina: $visina  Tezina: $tezina',
+          style: TextStyle(fontSize: 20),);
+  }
+
+  Text waitToLoad(String? ime, String? prezime) {
+    return Text('$ime $prezime',
+          style: TextStyle(fontSize: 30),);
   }
 }
