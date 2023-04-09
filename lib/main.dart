@@ -10,6 +10,7 @@ import 'package:fit/models/user.dart';
 import 'package:fit/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'auth.dart';
 import 'firebase_options.dart';
 import 'AditionalInfo.dart';
@@ -39,6 +40,14 @@ Client? u;
 
 class _MainAppState extends State<MainApp> {
 
+  late bool isNotifications;
+
+  @override
+  void initState() {
+    super.initState();
+    checkNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -46,6 +55,11 @@ class _MainAppState extends State<MainApp> {
       debugShowCheckedModeBanner: false,
        home: MyHomePage(),
       );
+  }
+  
+  void checkNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    isNotifications = prefs.getBool('notifications') ?? true;
   }
 }
 
@@ -81,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context, snapshot) {
                 if(snapshot.hasData){
                   if(snapshot.data!.name==null){
-                    return AditionalInfo();
+                    return AditionalInfo(user: snapshot.data);
                   } else{
                     return MainScreenPage(user: snapshot.data);
                   }
