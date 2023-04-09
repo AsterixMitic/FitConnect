@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
-  String? imgUrl;
-  UserImagePicker({Key? key, this.imgUrl}) : super(key: key);
+  UserImagePicker({Key? key}) : super(key: key);
 
   @override
   State<UserImagePicker> createState() => _UserImagePickerState();
@@ -41,7 +40,6 @@ class _UserImagePickerState extends State<UserImagePicker> {
     imageChange = true;
 
     setState(() {
-      widget.imgUrl=image.toString();
       pickedImage = image;
     });
   }
