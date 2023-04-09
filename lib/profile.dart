@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit/UserImagePicker.dart';
 import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
 
@@ -9,92 +13,150 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-
 class _ProfilePageState extends State<ProfilePage> {
-
   late Client? _user;
 
   @override
-      void initState() {
-        super.initState();
-        _user = widget.user;
-    }
+  void initState() {
+    super.initState();
+    _user = widget.user;
+  }
 
   @override
   Widget build(BuildContext context) {
+    var ime = _user!.name;
+    var prezime = _user!.lastname;
+    var visina = _user!.height;
+    var tezina = _user!.weight;
+    var userImage = _user!.picture;
+    Timer(Duration(seconds: 3), () {
+      setState(() {});
+    });
 
-    var ime = _user?.name;
-    var prezime = _user?.lastname;
-    var visina = _user?.height;
-    var tezina = _user?.weight;
-
-    final List<String> entries = <String>['A', 'B', 'C'];
-
-    return Container(
-      decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          colors: [
-            Color(0xCC6BFE9F),
-            Color(0xCC35b1b5),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        )),
-      child: Scaffold(
-        
-
-         body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            Text('Profile',
-          style: TextStyle(fontSize: 30),),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                  CircleAvatar(
-                radius: 48, 
-                backgroundImage: AssetImage('images/profileIcon.png'),
-                backgroundColor: Colors.transparent,//NetworkImage('imageUrl'),
+    return Scaffold(
+        body: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+              colors: [
+                Color(0xCC6BFE9F),
+                Color(0xCC35b1b5),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            )),
+            child: Column(children: [
+              SizedBox(height: 30),
+              const Text(
+                "Your Profile!",
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 25,
+                ),
               ),
-              Text('$ime $prezime',
-              style: TextStyle(fontSize: 30),),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Visina: $visina  Tezina: $tezina',
-              style: TextStyle(fontSize: 20),),
-              ],
-            ),
-            Column(
-              children: [
-                 ListView.separated(
-                padding: const EdgeInsets.all(10),
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    height: 100,
-                    color: Colors.blueAccent,
-                    child: Center(
-                      child: Row(
-                        children: [
-                           
-                          Text('${entries[index]}'),
-
-                        ],
-                      )
-                      ),
-                  );
-                }
-                ,separatorBuilder: (BuildContext context, int index) => const Divider(),
+              SizedBox(height: 30,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 120,
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(userImage.toString()),
+                    ),
+                  ),
+                  waitToLoad(ime, prezime),
+                ],
               ),
-              ],
-            )
-          ]
-        )
-      )
-    ));
+              SizedBox(height: 30,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  waitToLoadWeight(visina, tezina),
+                ],
+              ),
+              SizedBox(height: 30,),
+              Expanded(
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection('users')
+                      .orderBy('points', descending: false)
+                      .limit(10)
+                      .get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      List<QueryDocumentSnapshot> docs = snapshot.data!.docs;
+                      List<Client> clients = docs
+                          .map((doc) => Client(
+                              email: doc.get('email'),
+                              name: doc.get('name'),
+                              lastname: doc.get('lastname'),
+                              points: doc.get('points'),
+                              picture: doc.get('picture')))
+                          .toList();
+
+                      return ListView.separated(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: clients.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 300,
+                            child: Center(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Container(
+                                          width: 300,
+                                          child: Image(
+                                            image: NetworkImage(
+                                              clients[index].picture.toString(),
+                                            ),
+                                          )),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.topCenter,
+                                      child: const Text(
+                                        "Neki tekst!",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
+              )
+            ])));
+  }
+
+  Text waitToLoadWeight(int visina, int tezina) {
+    return Text(
+      'Visina: $visina  Tezina: $tezina',
+      style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
+    );
+  }
+
+  Text waitToLoad(String? ime, String? prezime) {
+    return Text(
+      '$ime $prezime',
+      style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),
+    );
   }
 }
