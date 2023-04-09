@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/UserImagePicker.dart';
+import 'package:fit/models/activity.dart';
 import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
-import 'Notifications_service.dart';
 
 class ProfilePage extends StatefulWidget {
   Client? user;
@@ -30,9 +31,6 @@ class _ProfilePageState extends State<ProfilePage> {
     var visina = _user!.height;
     var tezina = _user!.weight;
     var userImage = _user!.picture;
-    Timer(Duration(seconds: 3), () {
-      setState(() {});
-    });
 
     return Scaffold(
         body: Container(
@@ -85,25 +83,24 @@ class _ProfilePageState extends State<ProfilePage> {
               Expanded(
                 child: FutureBuilder(
                   future: FirebaseFirestore.instance
-                      .collection('users')
-                      .orderBy('points', descending: false)
-                      .limit(10)
+                      .collection('challanges')
+                      .where('udi', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
                       .get(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       List<QueryDocumentSnapshot> docs = snapshot.data!.docs;
-                      List<Client> clients = docs
-                          .map((doc) => Client(
-                              email: doc.get('email'),
-                              name: doc.get('name'),
-                              lastname: doc.get('lastname'),
-                              points: doc.get('points'),
-                              picture: doc.get('picture')))
+                      List<ComplitedChallange> chall = docs
+                          .map((doc) => ComplitedChallange(
+                              slika: doc.get('slika'),
+                              challange: doc.get('challenge'),
+                              date: doc.get('date').toDate(),
+                              activity: Activity.fromMap(doc.get('activity')),
+                              ))
                           .toList();
 
                       return ListView.separated(
                         padding: const EdgeInsets.all(10),
-                        itemCount: clients.length,
+                        itemCount: chall.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             height: 300,
@@ -119,14 +116,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                           width: 300,
                                           child: Image(
                                             image: NetworkImage(
-                                              clients[index].picture.toString(),
+                                              chall[index].slika.toString(),
                                             ),
                                           )),
                                     ),
                                     Align(
                                       alignment: Alignment.topCenter,
-                                      child: const Text(
-                                        "Neki tekst!",
+                                      child: Text(
+                                        chall[index].challange.toString(),
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 15,

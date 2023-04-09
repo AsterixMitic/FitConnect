@@ -1,5 +1,4 @@
 import 'dart:html';
-import 'dart:js_interop';
 import 'dart:math';
 import 'package:fit/ChallangeViewDone.dart';
 import 'package:fit/SplashScreen.dart';

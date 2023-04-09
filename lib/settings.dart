@@ -13,38 +13,30 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late bool isNotifications;
-  late final prefs;
-
   @override
   void initState() {
     super.initState();
   }
 
-  void changeState(val) async {
-    //isNotifications = prefs.getBool('notifications') ?? true;
-    prefs.setBool('notifications', val);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: Column(
+
+      body: Column(
         children: [
-          ElevatedButton(
-              onPressed: logOut,
-              child: Text(
-                "Log out",
-                style: TextStyle(fontSize: 50),
-              )),
-          Column(
+          Center(
+              child: Column(
             children: [
-              Text("Notifications"),
+              ElevatedButton(
+                  onPressed: logOut,
+                  child: const Text(
+                    "Log out",
+                    style: TextStyle(fontSize: 50),
+                  )),
             ],
-          ),
+          )),
         ],
-      )),
+      ),
     );
   }
 
