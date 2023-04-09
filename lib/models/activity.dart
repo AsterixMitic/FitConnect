@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fit/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,6 +39,25 @@ class Activity {
         break;
     }
   }
+
+  static String intensityString(int i) {
+    switch (i) {
+      case 1:
+        return "Low";
+      case 2:
+        return "Moderate";
+      case 3:
+        return "High";
+      default:
+        return "Moderate";
+    }
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return super.toString();
+  }
 }
 
 class Cycling extends Activity {
@@ -69,6 +89,12 @@ class Cycling extends Activity {
   @override
   Map<String, dynamic> toMap() {
     return {"type": "cycle", "quantity": quantity, "intensity": intensity};
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "Duration: $quantity $unit";
   }
 }
 
@@ -102,6 +128,12 @@ class Walking extends Activity {
   Map<String, dynamic> toMap() {
     return {"type": "walk", "quantity": quantity, "intensity": intensity};
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "Duration: $quantity $unit";
+  }
 }
 
 class Swiming extends Activity {
@@ -133,6 +165,12 @@ class Swiming extends Activity {
   @override
   Map<String, dynamic> toMap() {
     return {"type": "swim", "quantity": quantity, "intensity": intensity};
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "Duration: $quantity $unit";
   }
 }
 
@@ -166,6 +204,12 @@ class Running extends Activity {
   Map<String, dynamic> toMap() {
     return {"type": "run", "quantity": quantity, "intensity": intensity};
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "Distance: $quantity $unit";
+  }
 }
 
 //class PushUps()
@@ -189,11 +233,13 @@ class Progress {
 
 class Challange {
   int quantity;
-  Challange({required this.quantity});
+  String task;
+  String text;
+  Challange({required this.text, required this.quantity, required this.task});
 
   static double increment = 0.05;
 
-  static String generateChalange(Progress p, int k) {
+  static Challange generateChalange(Progress p, int k) {
     Activity a = Activity.fromMap({
       'type': p.izabrani[k % p.izabrani.length],
       'intensity': 0,
@@ -231,7 +277,8 @@ class Challange {
       if (p.challanges[i].activity == a) n++;
     }*/
     int r = (baseQuantity + n * baseQuantity * (increment)) ~/ 1;
-    return "Chalange is to $task for $r $unit";
+    return Challange(
+        text: "Chalange is to $task for $r $unit", task: task, quantity: r);
   }
 }
 

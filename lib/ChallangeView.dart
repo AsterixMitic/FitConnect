@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:fit/main_challenges.dart';
 import 'package:flutter/material.dart';
 
+import 'models/activity.dart';
+
 var dropdownValue = "Running";
 String message = "";
 
@@ -14,6 +16,7 @@ class ChallangeView extends StatefulWidget {
 }
 
 class _ChallangeViewState extends State<ChallangeView> {
+  double _currentSliderValue = 1;
   @override
   Widget build(BuildContext context) {
     int? index = ModalRoute.of(context)!.settings.arguments as int?;
@@ -200,23 +203,20 @@ class _ChallangeViewState extends State<ChallangeView> {
                                   blurRadius: 10,
                                   color: Color(0xedEEEEEE))
                             ]),
-                        child: const Padding(
+                        child: Padding(
                           padding:
                               EdgeInsets.only(bottom: 4, left: 8, right: 6),
-                          child: TextField(
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: InputDecoration(
-                              icon: Icon(
-                                Icons.height,
-                                size: 20,
-                              ),
-                              hintText: "How Intense was your workout 1-3",
-                              hintStyle: TextStyle(fontSize: 14),
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              iconColor: Color(0xCC6BFE9F),
-                            ),
-                          ),
+                          child: Slider(
+                              value: _currentSliderValue,
+                              max: 2,
+                              divisions: 2,
+                              label: Activity.intensityString(
+                                  _currentSliderValue.round() + 1),
+                              onChanged: (double value) {
+                                setState(() {
+                                  _currentSliderValue = value;
+                                });
+                              }),
                         ),
                       )),
                   Expanded(
