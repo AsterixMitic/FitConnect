@@ -1,12 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/leaderboard.dart';
 import 'package:fit/main_challenges.dart';
+import 'package:fit/models/user.dart';
 import 'package:fit/profile.dart';
 import 'package:fit/settings.dart';
 import 'package:flutter/material.dart';
 
 class MainScreenPage extends StatefulWidget {
-  const MainScreenPage({super.key});
+  Client? user;
+
+  MainScreenPage({Key? key, this.user}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _MainScreenPageState();
 
@@ -14,16 +18,27 @@ class MainScreenPage extends StatefulWidget {
 
 class _MainScreenPageState extends State<MainScreenPage>{
 
+  late final Client? user;
+
   int selectedIndex = 0;
 
-  final user = FirebaseAuth.instance.currentUser;
+  final fbInstance = FirebaseAuth.instance.currentUser;
 
-    final screens = [
-      MainChallengesPage(),
-      ProfilePage(),
-      LeaderboardPage(),
-      SettingsPage(),
-    ];
+    @override
+      void initState() {
+        super.initState();
+        user = widget.user;
+    }
+
+  late final screens = [
+          MainChallengesPage(),
+          ProfilePage(user: user),
+          LeaderboardPage(),
+          SettingsPage(),
+        ];
+
+    @override
+  MainScreenPage get widget => super.widget;
 
     void _onItemTapped(int index) {
       setState(() {
@@ -33,7 +48,6 @@ class _MainScreenPageState extends State<MainScreenPage>{
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
       body: screens[selectedIndex],

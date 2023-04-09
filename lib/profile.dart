@@ -1,21 +1,65 @@
+import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  Client? user;
+  ProfilePage({Key? key, this.user}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
+
 class _ProfilePageState extends State<ProfilePage> {
+
+  late Client? _user;
+
+  @override
+      void initState() {
+        super.initState();
+        _user = widget.user;
+    }
+
   @override
   Widget build(BuildContext context) {
+
+    var ime = _user!.name;
+    var prezime = _user!.lastname;
+    var visina = _user!.height;
+    var tezina = _user!.weight;
+
+
     return Container(
       child: Scaffold(
          body: Center(
-        child: Text('This is Profile',
-        style: TextStyle(fontSize: 30),),
+        child: Column(
+          children: [
+            SizedBox(height: 30),
+            Text('Profile',
+          style: TextStyle(fontSize: 30),),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                  CircleAvatar(
+                radius: 48, 
+                backgroundImage: AssetImage('images/profileIcon.png'),
+                backgroundColor: Colors.transparent,//NetworkImage('imageUrl'),
+              ),
+              Text('$ime $prezime',
+              style: TextStyle(fontSize: 30),),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text('Visina: $visina  Tezina: $tezina',
+              style: TextStyle(fontSize: 20),),
+              ],
+            )
+
+          ]
+        )
       )
-      ));
+    ));
   }
 }

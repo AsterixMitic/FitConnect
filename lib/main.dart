@@ -82,13 +82,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   if(snapshot.data!.name==null){
                     return AditionalInfo();
                   } else{
-                    return const MainScreenPage();
+                    return MainScreenPage(user: snapshot.data);
                   }
                 } else if(snapshot.hasError){
                     return Text(snapshot.error.toString());
                 }
                 else{
-                    return Text("loading");
+                    return CircularProgressIndicator();
                 }
               }
               );
