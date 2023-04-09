@@ -164,7 +164,7 @@ class Challange {
     for (int i = p.challanges.length - 1; i >= 0; i++) {
       if (p.challanges[i].activity.runtimeType == a.runtimeType) n++;
     }
-    int r = (baseQuantity + n * baseQuantity * (increment + 1)) ~/ 1;
+    int r = (baseQuantity + n * baseQuantity * increment) ~/ 1;
     return "Try $r $unit";
   }
 }
@@ -173,7 +173,11 @@ class ComplitedChallange {
   Activity activity;
   DateTime date;
   String slika;
+  String challange;
 
   ComplitedChallange(
-      {required this.activity, required this.slika, required this.date});
+      {required this.activity,
+      required this.slika,
+      required this.date,
+      required this.challange});
 }
