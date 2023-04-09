@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/UserImagePicker.dart';
-import 'package:fit/UserImagePicker2.dart';
 import 'package:fit/database.dart';
 
 import 'models/activity.dart';
@@ -75,15 +74,7 @@ class _RandomChallangeViewState extends State<RandomChallangeView> {
                     children: [
                       Stack(
                         children: [
-                          GestureDetector(
-                              child: Container(
-                            height: 120,
-                            child: UserImagePicker2(
-                                challange_id:
-                                    FirebaseAuth.instance.currentUser!.uid +
-                                        "-" +
-                                        index.toString()),
-                          )),
+                          
                         ],
                       ),
                       const Text(

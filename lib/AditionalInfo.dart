@@ -233,7 +233,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                           child: TextField(
                             controller: heightController,
                             textAlignVertical: TextAlignVertical.top,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               icon: Icon(
                                 Icons.height,
                                 size: 20,

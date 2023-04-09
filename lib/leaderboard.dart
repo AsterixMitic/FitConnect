@@ -44,6 +44,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                           picture: doc.get('picture')
                        )).toList();
             
+                      print(clients[0].picture.toString());
+
                       return ListView.separated(
                       padding: const EdgeInsets.all(10),
                       itemCount: clients.length,
