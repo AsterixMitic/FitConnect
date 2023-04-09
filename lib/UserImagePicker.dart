@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
-  const UserImagePicker({super.key});
+  UserImagePicker({Key? key}) : super(key: key);
 
   @override
   State<UserImagePicker> createState() => _UserImagePickerState();
@@ -38,6 +38,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
         .doc(userId)
         .update({'picture': imageUrl});
     imageChange = true;
+
     setState(() {
       pickedImage = image;
     });
@@ -51,35 +52,10 @@ class _UserImagePickerState extends State<UserImagePicker> {
           future:
               FirebaseFirestore.instance.collection("users").doc(userId).get(),
           builder: (context, snapshot) {
-            // if (snapshot.connectionState == ConnectionState.waiting) {
-            //   return Container(
-            //     alignment: Alignment.center,
-            //     child: Image.asset(
-            //       "images/profileIcon.png",
-            //       height: 140,
-            //     ),
-            //   );
-            // }
-            if (snapshot.data!['picture'] == null) {
-              return Container(
-                alignment: Alignment.center,
-                child: Image.asset(
-                  "images/profileIcon.png",
-                  height: 150,
-                ),
-              );
-            } else {
+            
               profileImage = NetworkImage(snapshot.data!['picture']);
               imageChange = false;
               return Stack(children: [
-                Container(
-                  alignment: Alignment.center,
-              
-                  child: Image.asset(
-                    "images/profileIcon.png",
-                    height: 140,
-                  ),
-                ),
                 Container(
                   decoration: BoxDecoration(
                       border: Border.all(width: 12, color: Colors.white),
@@ -92,7 +68,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
                   ),
                 ),
               ]);
-            }
+            
           },
         ),
       if (imageChange == false)

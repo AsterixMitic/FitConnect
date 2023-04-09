@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/ChallangeViewDone.dart';
+import 'package:fit/Notifications_service.dart';
 import 'package:fit/SplashScreen.dart';
 import 'package:fit/database.dart';
 import 'package:fit/main_challenges.dart';
@@ -71,6 +72,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  NotificationsServices notificationsServices = NotificationsServices();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
