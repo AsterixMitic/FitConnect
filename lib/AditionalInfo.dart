@@ -1,41 +1,14 @@
 import 'dart:ui';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit/UserImagePicker.dart';
-import 'package:fit/database.dart';
-import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'mainscreen.dart';
 
-class AditionalInfo extends StatefulWidget {
-  AditionalInfo({super.key});
-
-  @override
-  State<AditionalInfo> createState() => _AditionalInfoState();
-}
-
-class _AditionalInfoState extends State<AditionalInfo> {
-  var _imageChange = false;
-  var userId = FirebaseAuth.instance.currentUser!.uid;
-  final nameController = TextEditingController();
-  final lastnameController = TextEditingController();
-  final heightController = TextEditingController();
-  final weightController = TextEditingController();
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    lastnameController.dispose();
-    heightController.dispose();
-    weightController.dispose();
-    super.dispose();
-  }
+class AditionalInfo extends StatelessWidget {
+  const AditionalInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
@@ -69,7 +42,17 @@ class _AditionalInfoState extends State<AditionalInfo> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      UserImagePicker(),
+                      Stack(
+                        children: [
+                          GestureDetector(
+                            
+                            child: Container(
+                              height: 140,
+                              child: UserImagePicker(),
+                            ),
+                          ),
+                        ],
+                      ),
                       Column(
                         children: [
                           Container(
@@ -86,11 +69,10 @@ class _AditionalInfoState extends State<AditionalInfo> {
                                           blurRadius: 10,
                                           color: Color(0xedEEEEEE))
                                     ]),
-                                child: Padding(
+                                child: const Padding(
                                   padding:
                                       EdgeInsets.only(bottom: 4, left: 8, right: 6),
                                   child: TextField(
-                                    controller: nameController,
                                     textAlignVertical: TextAlignVertical.top,
                                     decoration: InputDecoration(
                                       icon: Icon(
@@ -121,18 +103,17 @@ class _AditionalInfoState extends State<AditionalInfo> {
                                           blurRadius: 10,
                                           color: Color(0xedEEEEEE))
                                     ]),
-                                child: Padding(
+                                child: const Padding(
                                   padding:
                                       EdgeInsets.only(bottom: 4, left: 8, right: 6),
                                   child: TextField(
-                                    controller: lastnameController,
                                     textAlignVertical: TextAlignVertical.top,
                                     decoration: InputDecoration(
                                       icon: Icon(
                                         Icons.person,
                                         size: 20,
                                       ),
-                                      hintText: "Enter your lastname",
+                                      hintText: "Enter your surname",
                                       hintStyle: TextStyle(fontSize: 13),
                                       focusedBorder: InputBorder.none,
                                       enabledBorder: InputBorder.none,
@@ -169,11 +150,10 @@ class _AditionalInfoState extends State<AditionalInfo> {
                                   blurRadius: 10,
                                   color: Color(0xedEEEEEE))
                             ]),
-                        child: Padding(
+                        child: const Padding(
                           padding:
                               EdgeInsets.only(bottom: 4, left: 8, right: 6),
                           child: TextField(
-                            controller: weightController,
                             textAlignVertical: TextAlignVertical.top,
                             decoration: InputDecoration(
                               icon: Icon(
@@ -207,11 +187,10 @@ class _AditionalInfoState extends State<AditionalInfo> {
                                   blurRadius: 10,
                                   color: Color(0xedEEEEEE))
                             ]),
-                        child: Padding(
+                        child: const Padding(
                           padding:
                               EdgeInsets.only(bottom: 4, left: 8, right: 6),
                           child: TextField(
-                            controller: heightController,
                             textAlignVertical: TextAlignVertical.top,
                             decoration: InputDecoration(
                               icon: Icon(
@@ -230,21 +209,8 @@ class _AditionalInfoState extends State<AditionalInfo> {
                       Expanded(child: Container(),),
                   GestureDetector(
                     onTap: () {
-                      var uuid = FirebaseAuth.instance.currentUser;
-                      final Database db = Database(uid: uuid!.uid);
-
-                      Client u = Client(email: uuid.email.toString());
-                      u.name = nameController.text.trim();
-                      u.lastname = lastnameController.text.trim();
-                      u.weight = int.parse(weightController.text);
-                      u.height = int.parse(heightController.text);
-
-                      db.updateUserData(u);
-
-                      Navigator.push(context,  MaterialPageRoute(builder: (context) => MainScreenPage()));
-
+                      HapticFeedback.vibrate();
                     },
-
                     child: Container(
                       alignment: Alignment.center,
                       margin:
@@ -279,6 +245,4 @@ class _AditionalInfoState extends State<AditionalInfo> {
       ),
     );
   }
-
-
 }
