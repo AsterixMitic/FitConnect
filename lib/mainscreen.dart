@@ -5,6 +5,7 @@ import 'package:fit/models/user.dart';
 import 'package:fit/profile.dart';
 import 'package:fit/settings.dart';
 import 'package:flutter/material.dart';
+import 'globals.dart';
 
 class MainScreenPage extends StatefulWidget {
   Client? user;
@@ -48,6 +49,7 @@ class _MainScreenPageState extends State<MainScreenPage>{
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
       body: screens[selectedIndex],
