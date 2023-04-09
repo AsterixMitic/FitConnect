@@ -78,8 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    notificationsServices.initialiseNotifications();
-    notificationsServices.scheduleNotification("Uradi izazov", "Tvoj danasnji izazov je spreman i ceka na tebe!");
   }
 
   @override
