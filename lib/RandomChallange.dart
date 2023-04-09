@@ -3,47 +3,20 @@ import 'dart:ui';
 import 'package:fit/main_challenges.dart';
 import 'package:flutter/material.dart';
 
-var dropdownValue = "Running";
-String message = "";
 
-class ChallangeView extends StatefulWidget {
-  const ChallangeView({super.key});
+class RandomChallangeView extends StatefulWidget {
+  const RandomChallangeView({super.key});
 
   @override
-  State<ChallangeView> createState() => _ChallangeViewState();
+  State<RandomChallangeView> createState() => _RandomChallangeViewState();
 }
 
-class _ChallangeViewState extends State<ChallangeView> {
+class _RandomChallangeViewState extends State<RandomChallangeView> {
   @override
   Widget build(BuildContext context) {
     int? index = ModalRoute.of(context)!.settings.arguments as int?;
 
-    switch (dropdownValue) {
-      case "Running":
-        setState(() {
-          message = "Enter how many METERS have you ran";
-        });
-
-        break;
-      case "Walking":
-        setState(() {
-          message = "Enter how many METERS have you walked";
-        });
-
-        break;
-      case "Swimming":
-        setState(() {
-          message = "Enter how many METERS have you swam";
-        });
-
-        break;
-      case "Biking":
-        setState(() {
-          message = "Enter how many METERS have you swam";
-        });
-
-        break;
-    }
+    
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -69,7 +42,18 @@ class _ChallangeViewState extends State<ChallangeView> {
                     height: 10,
                   ),
                   const Text(
-                    "What a nice challange!",
+                    "Your challange is:",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  
+                  const Text(
+                    "Your challange is to suck cock for 24 hours:",
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 20,
@@ -113,43 +97,11 @@ class _ChallangeViewState extends State<ChallangeView> {
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        "Choose your activity!",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 15),
-                      ),
-                      DropdownButton<String>(
-                        value: dropdownValue,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
-                        },
-                        items: <String>[
-                          'Biking',
-                          'Running',
-                          'Walking',
-                          'Sprinting'
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 15),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
+                  
                   SizedBox(
                     height: 20,
                   ),
-                  if (dropdownValue != "Walking")
+                  
                     Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width / 1.2,
@@ -174,7 +126,7 @@ class _ChallangeViewState extends State<ChallangeView> {
                                   Icons.monitor_weight_rounded,
                                   size: 20,
                                 ),
-                                hintText: message,
+                                hintText: "Enter your data:",
                                 hintStyle: TextStyle(fontSize: 14),
                                 focusedBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
@@ -210,7 +162,7 @@ class _ChallangeViewState extends State<ChallangeView> {
                                 Icons.height,
                                 size: 20,
                               ),
-                              hintText: "How Intense was your workout 1-3",
+                              hintText: "Enter your height",
                               hintStyle: TextStyle(fontSize: 14),
                               focusedBorder: InputBorder.none,
                               enabledBorder: InputBorder.none,
@@ -219,6 +171,8 @@ class _ChallangeViewState extends State<ChallangeView> {
                           ),
                         ),
                       )),
+
+
                   Expanded(
                     child: Container(),
                   ),
@@ -252,7 +206,9 @@ class _ChallangeViewState extends State<ChallangeView> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(
+                        context
+                      );
                     },
                     child: Container(
                       alignment: Alignment.center,

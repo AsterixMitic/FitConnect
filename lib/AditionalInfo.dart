@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit/UserImagePicker.dart';
 import 'package:fit/database.dart';
 import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,8 @@ class AditionalInfo extends StatefulWidget {
 }
 
 class _AditionalInfoState extends State<AditionalInfo> {
-
+  var _imageChange = false;
+  var userId = FirebaseAuth.instance.currentUser!.uid;
   final nameController = TextEditingController();
   final lastnameController = TextEditingController();
   final heightController = TextEditingController();
@@ -67,17 +69,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Stack(
-                        children: [
-                          GestureDetector(
-                            
-                            child: Container(
-                              height: 120,
-                              child: Image.asset("images/profileIcon.png"),
-                            ),
-                          ),
-                        ],
-                      ),
+                      UserImagePicker(),
                       Column(
                         children: [
                           Container(

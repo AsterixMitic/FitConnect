@@ -52,7 +52,8 @@ class _MainScreenPageState extends State<MainScreenPage>{
       child: Scaffold(
       body: screens[selectedIndex],
 
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar( 
+        elevation: 0,
          type: BottomNavigationBarType.fixed,
           currentIndex: selectedIndex,
           onTap: _onItemTapped,
