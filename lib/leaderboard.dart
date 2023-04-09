@@ -12,25 +12,7 @@ class LeaderboardPage extends StatefulWidget {
   State<LeaderboardPage> createState() => _LeaderboardPageState();
 }
 
-/*
-final result = await FirebaseDatabase.instance
-        .ref()
-        .child('leaderboard')
-        .orderByChild('score')
-        .limitToLast(20)
-        .once();
-
-    final leaderboardScores = result.snapshot.children
-        .map(
-          (e) =&gt; LeaderboardModel.fromJson(e.value as Map, e.key == userId),
-        )
-        .toList();
-
-    return leaderboardScores.reversed;*/ 
-
 class _LeaderboardPageState extends State<LeaderboardPage> {
-  
-  final List<String> entries = <String>['A', 'B', 'C'];
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +33,9 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                     picture: doc.get('picture')
                  )).toList();
 
-                print(clients[0].picture.toString());
-
                 return ListView.separated(
                 padding: const EdgeInsets.all(10),
-                itemCount: entries.length,
+                itemCount: clients.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: 100,

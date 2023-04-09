@@ -10,13 +10,22 @@ import 'package:flutter/services.dart';
 import 'mainscreen.dart';
 
 class AditionalInfo extends StatefulWidget {
-  AditionalInfo({super.key});
+  Client? user;
+  AditionalInfo({Key? key, this.user}) : super(key: key);
 
   @override
   State<AditionalInfo> createState() => _AditionalInfoState();
 }
 
 class _AditionalInfoState extends State<AditionalInfo> {
+
+  late Client? _user;
+
+  @override
+      void initState() {
+        super.initState();
+        _user = widget.user;
+    }
 
   final nameController = TextEditingController();
   final lastnameController = TextEditingController();
@@ -250,7 +259,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                        u.picture = "https://firebasestorage.googleapis.com/v0/b/fitconnect-38ef3.appspot.com/o/user_image%20%2FprofileIcon.png?alt=media&token=3008631f-f6ac-4302-86c5-c510508a5eb6";
                       db.updateUserData(u);
 
-                      Navigator.push(context,  MaterialPageRoute(builder: (context) => MainScreenPage()));
+                      Navigator.push(context,  MaterialPageRoute(builder: (context) => MainScreenPage(user: _user,)));
 
                     },
 
