@@ -53,18 +53,19 @@ class _UserImagePickerState extends State<UserImagePicker> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
+                alignment: Alignment.center,
                 child: Image.asset(
                   "images/profileIcon.png",
-                  height: 120,
+                  height: 140,
                 ),
               );
             }
             if (snapshot.data!['picture'] == null) {
               return Container(
-               
+                alignment: Alignment.center,
                 child: Image.asset(
                   "images/profileIcon.png",
-                  height: 120,
+                  height: 140,
                 ),
               );
             } else {
@@ -72,10 +73,11 @@ class _UserImagePickerState extends State<UserImagePicker> {
               imageChange = false;
               return Stack(children: [
                 Container(
+                  alignment: Alignment.center,
                   
                   child: Image.asset(
                     "images/profileIcon.png",
-                    height: 120,
+                    height: 140,
                   ),
                 ),
                 Container(
