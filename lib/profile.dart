@@ -23,14 +23,26 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
 
-    var ime = _user!.name;
-    var prezime = _user!.lastname;
-    var visina = _user!.height;
-    var tezina = _user!.weight;
+    var ime = _user?.name;
+    var prezime = _user?.lastname;
+    var visina = _user?.height;
+    var tezina = _user?.weight;
 
+    final List<String> entries = <String>['A', 'B', 'C'];
 
     return Container(
+      decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          colors: [
+            Color(0xCC6BFE9F),
+            Color(0xCC35b1b5),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        )),
       child: Scaffold(
+        
+
          body: Center(
         child: Column(
           children: [
@@ -55,8 +67,31 @@ class _ProfilePageState extends State<ProfilePage> {
                 Text('Visina: $visina  Tezina: $tezina',
               style: TextStyle(fontSize: 20),),
               ],
-            )
+            ),
+            Column(
+              children: [
+                 ListView.separated(
+                padding: const EdgeInsets.all(10),
+                itemCount: entries.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 100,
+                    color: Colors.blueAccent,
+                    child: Center(
+                      child: Row(
+                        children: [
+                           
+                          Text('${entries[index]}'),
 
+                        ],
+                      )
+                      ),
+                  );
+                }
+                ,separatorBuilder: (BuildContext context, int index) => const Divider(),
+              ),
+              ],
+            )
           ]
         )
       )

@@ -51,21 +51,21 @@ class _UserImagePickerState extends State<UserImagePicker> {
           future:
               FirebaseFirestore.instance.collection("users").doc(userId).get(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                alignment: Alignment.center,
-                child: Image.asset(
-                  "images/profileIcon.png",
-                  height: 140,
-                ),
-              );
-            }
+            // if (snapshot.connectionState == ConnectionState.waiting) {
+            //   return Container(
+            //     alignment: Alignment.center,
+            //     child: Image.asset(
+            //       "images/profileIcon.png",
+            //       height: 140,
+            //     ),
+            //   );
+            // }
             if (snapshot.data!['picture'] == null) {
               return Container(
                 alignment: Alignment.center,
                 child: Image.asset(
                   "images/profileIcon.png",
-                  height: 140,
+                  height: 150,
                 ),
               );
             } else {
@@ -74,7 +74,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
               return Stack(children: [
                 Container(
                   alignment: Alignment.center,
-                  
+              
                   child: Image.asset(
                     "images/profileIcon.png",
                     height: 140,

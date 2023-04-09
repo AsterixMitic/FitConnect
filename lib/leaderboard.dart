@@ -12,35 +12,17 @@ class LeaderboardPage extends StatefulWidget {
   State<LeaderboardPage> createState() => _LeaderboardPageState();
 }
 
-/*
-final result = await FirebaseDatabase.instance
-        .ref()
-        .child('leaderboard')
-        .orderByChild('score')
-        .limitToLast(20)
-        .once();
-
-    final leaderboardScores = result.snapshot.children
-        .map(
-          (e) =&gt; LeaderboardModel.fromJson(e.value as Map, e.key == userId),
-        )
-        .toList();
-
-    return leaderboardScores.reversed;*/ 
-
 class _LeaderboardPageState extends State<LeaderboardPage> {
-  
-  final List<String> entries = <String>['A', 'B', 'C'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-          future: FirebaseFirestore.instance.collection('users').orderBy('points', descending: true).limit(20).get(),
+          future: FirebaseFirestore.instance.collection('users').orderBy('points', descending: false).limit(20).get(),
           builder: (context, snapshot) {
               if(snapshot.hasData){
-                var ime = snapshot.data;
+                
 
                 List<QueryDocumentSnapshot> docs = snapshot.data!.docs;
                  List<Client> clients = docs.map((doc) => Client(
@@ -51,11 +33,9 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                     picture: doc.get('picture')
                  )).toList();
 
-                print(clients[0].picture.toString());
-
                 return ListView.separated(
                 padding: const EdgeInsets.all(10),
-                itemCount: entries.length,
+                itemCount: clients.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: 100,

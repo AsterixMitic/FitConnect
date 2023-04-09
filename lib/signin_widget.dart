@@ -112,14 +112,6 @@ class _SigninPageState extends State<SigninWidget> {
 
   Future signIn() async {
 
-    /*showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator())
-      );
-      */
-      
-
     try{
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
@@ -130,8 +122,6 @@ class _SigninPageState extends State<SigninWidget> {
     } on FirebaseAuthException catch(e){
       print(e);
     }
-
-    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
     
   }
 
