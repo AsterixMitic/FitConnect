@@ -1,5 +1,6 @@
 import 'package:fit/models/user.dart';
 import 'package:flutter/material.dart';
+import 'Notifications_service.dart';
 
 class ProfilePage extends StatefulWidget {
   Client? user;
@@ -14,9 +15,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   late Client? _user;
 
+  NotificationsServices notificationsServices = NotificationsServices();
+
   @override
       void initState() {
         super.initState();
+        notificationsServices.initialiseNotifications();
+      notificationsServices.sendNotification("Uradi izazov", "Tvoj danasnji izazov je spreman i ceka na tebe!");
         _user = widget.user;
     }
 

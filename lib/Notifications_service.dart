@@ -14,7 +14,7 @@ class NotificationsServices{
 
   }
 
-  void scheduleNotification(String title, String body) async {
+  void sendNotification(String title, String body) async {
 
     AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
       'channelId',
@@ -25,11 +25,10 @@ class NotificationsServices{
 
     NotificationDetails notificationDetails = NotificationDetails();
 
-    await _flutterLocalNotificationsPlugin.periodicallyShow(
+    await _flutterLocalNotificationsPlugin.show(
       0,
       title,
       body,
-      RepeatInterval.everyMinute,
       notificationDetails,
       );
   }
