@@ -104,14 +104,7 @@ class _LoginPageState extends State<LoginWidget> {
   }
 
   Future logIn() async {
-    /*
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator())
-      );
-      */
-
+    
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
@@ -120,6 +113,5 @@ class _LoginPageState extends State<LoginWidget> {
       print(e);
     }
 
-    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }
