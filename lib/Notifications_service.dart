@@ -16,11 +16,11 @@ class NotificationsServices{
 
   void sendNotification(String title, String body) async {
 
-    AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
-      'channelId',
-      'channelName',
+    AndroidNotificationDetails androidNotificationDetails =AndroidNotificationDetails(
+      'channelId', 
+      'channelName', 
       importance: Importance.max,
-      priority: Priority.high,
+      priority: Priority.max,
       );
 
     NotificationDetails notificationDetails = NotificationDetails();

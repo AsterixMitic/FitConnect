@@ -252,6 +252,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                     onTap: () {
                       var uuid = FirebaseAuth.instance.currentUser;
 
+
                        Client u = Client(email: uuid!.email.toString());
 
                        FirebaseFirestore.instance.collection("users").doc(uuid.uid)
@@ -268,6 +269,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                       //  u.height = int.parse(heightController.text);
                       //  u.picture = currImage;
                       //  db.updateUserData(u);
+
 
                       Navigator.push(context,  MaterialPageRoute(builder: (context) => MainScreenPage(user: _user,)));
 
