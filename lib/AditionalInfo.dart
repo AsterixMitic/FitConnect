@@ -209,7 +209,6 @@ class AditionalInfo extends StatelessWidget {
                       Expanded(child: Container(),),
                   GestureDetector(
                     onTap: () {
-                      HapticFeedback.vibrate();
                     },
                     child: Container(
                       alignment: Alignment.center,

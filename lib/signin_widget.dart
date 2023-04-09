@@ -125,7 +125,7 @@ class _SigninPageState extends State<SigninWidget> {
         email: emailController.text.trim(),
         password: passwordController.text.trim()
         );
-      Client u = Client(email: emailController.text.trim());
+      Client u = Client(email: emailController.text.trim(), picture: "https://firebasestorage.googleapis.com/v0/b/fitconnect-38ef3.appspot.com/o/user_image%20%2FprofileIcon.png?alt=media&token=3008631f-f6ac-4302-86c5-c510508a5eb6");
       Database(uid: FirebaseAuth.instance.currentUser!.uid).updateUserData(u);
     } on FirebaseAuthException catch(e){
       print(e);
