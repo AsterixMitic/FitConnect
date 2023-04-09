@@ -85,7 +85,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                             
                             child: Container(
                               height: 120,
-                              child:UserImagePicker(imgUrl: currImage),
+                              child:UserImagePicker(),
                             ),
                           ),
                         ],
@@ -251,15 +251,6 @@ class _AditionalInfoState extends State<AditionalInfo> {
                   GestureDetector(
                     onTap: () {
                       var uuid = FirebaseAuth.instance.currentUser;
-                      final Database db = Database(uid: uuid!.uid);
-
-                        Client u = Client(email: uuid.email.toString());
-                       u.name = nameController.text.trim();
-                       u.lastname = lastnameController.text.trim();
-                       u.weight = int.parse(weightController.text);
-                       u.height = int.parse(heightController.text);
-                       u.picture = currImage;
-                       db.updateUserData(u);
 
                       Navigator.push(context,  MaterialPageRoute(builder: (context) => MainScreenPage(user: _user,)));
 
