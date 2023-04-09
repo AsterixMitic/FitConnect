@@ -238,7 +238,7 @@ class _AditionalInfoState extends State<AditionalInfo> {
                       u.lastname = lastnameController.text.trim();
                       u.weight = int.parse(weightController.text);
                       u.height = int.parse(heightController.text);
-
+                      u.picture = "https://firebasestorage.googleapis.com/v0/b/fitconnect-38ef3.appspot.com/o/user_image%20%2FprofileIcon.png?alt=media&token=3008631f-f6ac-4302-86c5-c510508a5eb6";
                       db.updateUserData(u);
 
                       Navigator.push(context,  MaterialPageRoute(builder: (context) => MainScreenPage()));
