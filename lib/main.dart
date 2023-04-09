@@ -11,22 +11,19 @@ import 'package:fit/models/user.dart';
 import 'package:fit/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'auth.dart';
 import 'firebase_options.dart';
 import 'AditionalInfo.dart';
 
-var _showSplash =true;
+var _showSplash = true;
 
-void main() async  {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-    
   );
-  runApp( const MainApp());
+  runApp(const MainApp());
 }
-
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -40,27 +37,15 @@ class MainApp extends StatefulWidget {
 Client? u;
 
 class _MainAppState extends State<MainApp> {
-
   late bool isNotifications;
-
-  @override
-  void initState() {
-    super.initState();
-    checkNotifications();
-  }
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'FitConnect',
       debugShowCheckedModeBanner: false,
-       home: MyHomePage(),
-      );
-  }
-  
-  void checkNotifications() async {
-    final prefs = await SharedPreferences.getInstance();
-    isNotifications = prefs.getBool('notifications') ?? true;
+      home: MyHomePage(),
+    );
   }
 }
 
@@ -72,9 +57,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  NotificationsServices notificationsServices = NotificationsServices();
-
   @override
   void initState() {
     super.initState();
@@ -83,48 +65,40 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //Fb firebase = Fb();
-    
-    if(_showSplash){
-      Timer(const Duration(seconds: 2),(){
+
+    if (_showSplash) {
+      Timer(const Duration(seconds: 2), () {
         setState(() {
-          _showSplash =false;
+          _showSplash = false;
         });
-        });
+      });
       return SplashScreen();
-    }else {
+    } else {
       return Scaffold(
-      body: StreamBuilder<User?>(
+          body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
-          
-        builder:  (context, snapshot){
-          if(snapshot.hasData){
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
             return FutureBuilder<Client?>(
-              future: Database(uid: snapshot.data!.uid).getUserData(),
-              builder: (context, snapshot) {
-                if(snapshot.hasData){
-                  if(snapshot.data!.name==null){
-                    return AditionalInfo(user: snapshot.data);
-                  } else{
-                    return MainScreenPage(user: snapshot.data);
-                  }
-                } else if(snapshot.hasError){
+                future: Database(uid: snapshot.data!.uid).getUserData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.name == null) {
+                      return AditionalInfo(user: snapshot.data);
+                    } else {
+                      return MainScreenPage(user: snapshot.data);
+                    }
+                  } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
-                }
-                else{
+                  } else {
                     return CircularProgressIndicator();
-                }
-              }
-              );
-          }
-          else{
+                  }
+                });
+          } else {
             return AuthPage();
           }
-        }
-      ,)
-    );
+        },
+      ));
     }
-    
   }
-
 }
-

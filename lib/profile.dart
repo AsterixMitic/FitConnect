@@ -17,16 +17,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late Client? _user;
 
-  NotificationsServices notificationsServices = NotificationsServices();
-
   @override
-
-      void initState() {
-        super.initState();
-        notificationsServices.initialiseNotifications();
-      notificationsServices.sendNotification("Uradi izazov", "Tvoj danasnji izazov je spreman i ceka na tebe!");
-        _user = widget.user;
-    }
+  void initState() {
+    super.initState();
+    _user = widget.user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +54,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize: 25,
                 ),
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -73,14 +70,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   waitToLoad(ime, prezime),
                 ],
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   waitToLoadWeight(visina, tezina),
                 ],
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
               Expanded(
                 child: FutureBuilder(
                   future: FirebaseFirestore.instance
@@ -155,14 +156,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Text waitToLoadWeight(int visina, int tezina) {
     return Text(
       'Visina: $visina  Tezina: $tezina',
-      style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
     );
   }
 
   Text waitToLoad(String? ime, String? prezime) {
     return Text(
       '$ime $prezime',
-      style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
     );
   }
 }
