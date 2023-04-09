@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginWidget> {
                                     ),
                     )),
                 SizedBox(
-                  height: 200,
+                  height: 170,
                 ),
                 TextField(
                   controller: emailController,
@@ -74,6 +74,7 @@ class _LoginPageState extends State<LoginWidget> {
                   controller: passwordController,
                   cursorColor: Colors.white,  
                   textInputAction: TextInputAction.next,
+                  obscureText: true,
                   decoration: InputDecoration(labelText: "Enter your password"),
                 ),
                 SizedBox(height: 60),

@@ -18,7 +18,8 @@ dependencies:
   firebase_storage: ^11.1.0
   flutter_launcher_icons: ^0.13.0
   shared_preferences: ^2.1.0
-
+  getwidget: ^3.0.1
+  flutter_local_notifications: ^13.0.0
   
 
 dev_dependencies:
