@@ -37,10 +37,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-          future: FirebaseFirestore.instance.collection('users').orderBy('points', descending: true).limit(20).get(),
+          future: FirebaseFirestore.instance.collection('users').orderBy('points', descending: false).limit(20).get(),
           builder: (context, snapshot) {
               if(snapshot.hasData){
-                var ime = snapshot.data;
+                
 
                 List<QueryDocumentSnapshot> docs = snapshot.data!.docs;
                  List<Client> clients = docs.map((doc) => Client(
@@ -51,11 +51,11 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                     picture: doc.get('picture')
                  )).toList();
 
-                print(clients[0].picture.toString());
+                print(clients[0].name.toString());
 
                 return ListView.separated(
                 padding: const EdgeInsets.all(10),
-                itemCount: entries.length,
+                itemCount: clients.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     height: 100,

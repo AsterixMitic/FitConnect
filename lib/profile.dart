@@ -30,7 +30,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
     return Container(
+      decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          colors: [
+            Color(0xCC6BFE9F),
+            Color(0xCC35b1b5),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        )),
       child: Scaffold(
+        
+
          body: Center(
         child: Column(
           children: [

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit/ChallangeViewDone.dart';
 import 'package:fit/SplashScreen.dart';
 import 'package:fit/database.dart';
 import 'package:fit/main_challenges.dart';
