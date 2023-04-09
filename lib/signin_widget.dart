@@ -58,9 +58,21 @@ class _SigninPageState extends State<SigninWidget> {
              child: Padding(
               padding: EdgeInsets.only(left: 20,right: 20),
                child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 
                 children: [
+                  SafeArea(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 30,right: 100),
+                      child: Text(
+                                      "Welcome to FitConnect",
+                                      
+                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                                    ),
+                    )),
+                    SizedBox(
+                  height: 170,
+                ),
                   TextFormField(
                     controller: emailController,
                     cursorColor: Colors.white,
@@ -78,15 +90,18 @@ class _SigninPageState extends State<SigninWidget> {
                     controller: passwordController,
                     cursorColor: Colors.white,
                     textInputAction: TextInputAction.next,
+                    obscureText: true,
                     decoration: InputDecoration(labelText: "Enter your password"),
                   ),
                   SizedBox(height: 40),
                   ElevatedButton(
                     
                     onPressed: signIn, 
-                    child: Text("Sign in"),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 100),
+                      child: Text("Sign in")),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 60),
                   RichText(
                     text: TextSpan(
                       text: 'Already have acc? ',
