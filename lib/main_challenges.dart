@@ -16,7 +16,7 @@ class MainChallengesPage extends StatefulWidget {
 }
 
 class _MainChallengesPageState extends State<MainChallengesPage> {
-  Progress progress = Progress();
+  Progress progress = Progress([], []);
 
   var blue = Color(0xCC35b1b5);
   var green = Color(0xCC6BFE9F);
@@ -116,8 +116,7 @@ class _MainChallengesPageState extends State<MainChallengesPage> {
 }
 
 _onStepTapped(int index, var context, Progress progres) {
-  if (index == progres.level-1 )
-  
+  if (index == progres.level - 1)
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -125,7 +124,7 @@ _onStepTapped(int index, var context, Progress progres) {
           settings: RouteSettings(arguments: index)),
     );
 
-  if (index < progres.level-1)
+  if (index < progres.level - 1)
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -133,6 +132,6 @@ _onStepTapped(int index, var context, Progress progres) {
           settings: RouteSettings(arguments: index)),
     );
 
-    print(index);
+  print(index);
   print(progres.level);
 }
