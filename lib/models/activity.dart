@@ -1,17 +1,50 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import 'user.dart';
 
-abstract class Activity {
-  int caloriesBurned(Client u);
-  int getQuantity();
+class Activity {
+  int intensity;
+  int quantity;
+
+  Activity({required this.intensity, required this.quantity});
+
+  int caloriesBurned(Client u) {
+    return 0;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {"quantity": quantity, "intensity": intensity};
+  }
+
+  static Activity fromMap(Map<String, dynamic> val) {
+    switch (val['type']) {
+      case 'cycle':
+        return Cycling(intensity: val['intensity'], quantity: val['quantity']);
+        break;
+      case 'walk':
+        return Walking(intensity: val['intensity'], quantity: val['quantity']);
+        break;
+      case 'swim':
+        return Swiming(intensity: val['intensity'], quantity: val['quantity']);
+        break;
+      case 'run':
+        return Running(intensity: val['intensity'], quantity: val['quantity']);
+        break;
+      default:
+        return Activity(intensity: val['intensity'], quantity: val['quantity']);
+        break;
+    }
+  }
 }
 
 class Cycling extends Activity {
-  int quantity;
   static String unit = "minute";
   static int baseQuantity = 30;
-  int intensity;
 
-  Cycling({required this.quantity, required this.intensity});
+  Cycling({required super.intensity, required super.quantity});
 
   @override
   int caloriesBurned(Client u) {
@@ -34,34 +67,48 @@ class Cycling extends Activity {
   }
 
   @override
-  int getQuantity() {
-    return quantity;
+  Map<String, dynamic> toMap() {
+    return {"type": "cycle", "quantity": quantity, "intensity": intensity};
   }
 }
 
 class Walking extends Activity {
-  int quantity;
   static String unit = "minute";
   static int baseQuantity = 30;
-  Walking({required this.quantity});
+
+  Walking({required super.intensity, required super.quantity});
+
   @override
   int caloriesBurned(Client u) {
-    return 4.5 * u.weight * quantity ~/ 60;
+    int MET;
+    switch (intensity) {
+      case 1:
+        MET = 2;
+        break;
+      case 2:
+        MET = 4;
+        break;
+      case 3:
+        MET = 6;
+        break;
+      default:
+        MET = 4;
+        break;
+    }
+    return MET * u.weight * quantity ~/ 60;
   }
 
   @override
-  int getQuantity() {
-    return quantity;
+  Map<String, dynamic> toMap() {
+    return {"type": "walk", "quantity": quantity, "intensity": intensity};
   }
 }
 
 class Swiming extends Activity {
-  int quantity;
   static String unit = "minute";
   static int baseQuantity = 30;
-  int intensity;
 
-  Swiming({required this.quantity, required this.intensity});
+  Swiming({required super.intensity, required super.quantity});
 
   @override
   int caloriesBurned(Client u) {
@@ -84,18 +131,16 @@ class Swiming extends Activity {
   }
 
   @override
-  int getQuantity() {
-    return quantity;
+  Map<String, dynamic> toMap() {
+    return {"type": "swim", "quantity": quantity, "intensity": intensity};
   }
 }
 
 class Running extends Activity {
-  int quantity;
   static String unit = "meter";
   static int baseQuantity = 300;
-  int intensity;
 
-  Running({required this.quantity, required this.intensity});
+  Running({required super.intensity, required super.quantity});
 
   @override
   int caloriesBurned(Client u) {
@@ -118,8 +163,8 @@ class Running extends Activity {
   }
 
   @override
-  int getQuantity() {
-    return quantity;
+  Map<String, dynamic> toMap() {
+    return {"type": "run", "quantity": quantity, "intensity": intensity};
   }
 }
 
@@ -128,44 +173,65 @@ class Running extends Activity {
 class Progress {
   int level = 1;
   List<ComplitedChallange> challanges = [];
+  List<String> izabrani = [];
 
-  Progress();
+  Progress(List<ComplitedChallange> list, List<String> izabrani) {
+    challanges = list;
+    level = list.length + 1;
+    this.izabrani = izabrani;
+  }
 
-  void addChalange(ComplitedChallange c) {
+  void addChallange(ComplitedChallange c) {
     level++;
     challanges.add(c);
   }
 }
 
 class Challange {
+  int quantity;
+  Challange({required this.quantity});
+
   static double increment = 0.05;
 
-  static String generateChalange(Progress p, Activity a) {
+  static String generateChalange(Progress p, int k) {
+    Activity a = Activity.fromMap({
+      'type': p.izabrani[k % p.izabrani.length],
+      'intensity': 0,
+      'quantity': 0
+    });
+
     int baseQuantity = 1;
     String unit = "";
+    String task = "";
     if (a is Running) {
       baseQuantity = Running.baseQuantity;
       unit = Running.unit;
+      task = "run";
     }
     if (a is Walking) {
       baseQuantity = Walking.baseQuantity;
       unit = Walking.unit;
+      task = "walk";
     }
     if (a is Cycling) {
       baseQuantity = Cycling.baseQuantity;
       unit = Cycling.unit;
+      task = "cycle";
     }
     if (a is Swiming) {
       baseQuantity = Swiming.baseQuantity;
       unit = Swiming.unit;
+      task = "swim";
     }
 
-    int n = 1;
+    int n = k ~/
+        p.izabrani
+            .length; /*
     for (int i = p.challanges.length - 1; i >= 0; i++) {
-      if (p.challanges[i].activity.runtimeType == a.runtimeType) n++;
-    }
-    int r = (baseQuantity + n * baseQuantity * increment) ~/ 1;
-    return "Try $r $unit";
+      if (p.challanges[i].activity == a) n++;
+    }*/
+    int r = (baseQuantity + n * baseQuantity * (increment)) ~/ 1;
+    return "Chalange is to $task for $r $unit";
   }
 }
 
@@ -180,4 +246,15 @@ class ComplitedChallange {
       required this.slika,
       required this.date,
       required this.challange});
+
+  Map<String, dynamic> toMap(String uid) {
+    Map<String, dynamic> r = {
+      "uid": uid,
+      "slika": slika,
+      "date": date,
+      "challange": challange,
+      "activity": activity.toMap()
+    };
+    return r;
+  }
 }

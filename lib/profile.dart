@@ -29,18 +29,6 @@ class _ProfilePageState extends State<ProfilePage> {
     var visina = _user!.height;
     var tezina = _user!.weight;
     var userImage = _user!.picture;
-    do {
-      ime = _user?.name;
-      prezime = _user?.lastname;
-      visina = _user!.height;
-      tezina = _user!.weight;
-      userImage = _user!.picture;
-
-      
-    
-    } while(_user!.name==null);
-    
-
 
     return Scaffold(
        body: Container(
