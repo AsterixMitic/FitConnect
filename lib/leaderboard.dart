@@ -19,10 +19,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-          future: FirebaseFirestore.instance.collection('users').orderBy('points', descending: true).limit(20).get(),
+          future: FirebaseFirestore.instance.collection('users').orderBy('points', descending: false).limit(20).get(),
           builder: (context, snapshot) {
               if(snapshot.hasData){
-                var ime = snapshot.data;
+                
 
                 List<QueryDocumentSnapshot> docs = snapshot.data!.docs;
                  List<Client> clients = docs.map((doc) => Client(
